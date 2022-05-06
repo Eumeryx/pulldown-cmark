@@ -109,6 +109,9 @@ pub enum Tag<'a> {
     /// A code block.
     CodeBlock(CodeBlockKind<'a>),
 
+    /// A math block
+    MathBlock,
+
     /// A list. If the list is ordered the field indicates the number of the first item.
     /// Contains only list items.
     List(Option<u64>), // TODO: add delim and tight for ast (not needed for html)
@@ -237,6 +240,9 @@ pub enum Event<'a> {
     /// A text node.
     #[cfg_attr(feature = "serde", serde(borrow))]
     Text(CowStr<'a>),
+
+    /// A text node of math
+    MathText(CowStr<'a>, bool), // text, inline
     /// An inline code node.
     #[cfg_attr(feature = "serde", serde(borrow))]
     Code(CowStr<'a>),
@@ -285,5 +291,6 @@ bitflags::bitflags! {
         /// with the content `text`, ID `id`, and classes `class1` and `class2`.
         /// Note that attributes (ID and classes) should be space-separated.
         const ENABLE_HEADING_ATTRIBUTES = 1 << 6;
+        const ENABLE_MATH = 1 << 7;
     }
 }
